@@ -1,0 +1,23 @@
+PDFs de certificados de acreditación de ema, a.c.
+
+Los nombres coinciden con los referenciados en el sitio
+(src/lib/content.ts -> accreditations[].pdf):
+
+  AE18.pdf   (Analizadores Específicos)
+  D145.pdf   (Dimensional)
+  E111.pdf   (Eléctrica)
+  F44.pdf    (Fuerza)
+  FL20.pdf   (Flujo)
+  H11.pdf    (Humedad)
+  M77.pdf    (Masa)
+  ME01.pdf   (Mediciones Especiales)
+  OP21.pdf   (Óptica)
+  P51.pdf    (Presión)
+  T56.pdf    (Temperatura)
+  V40.pdf    (Volumen)
+
+ESTADO: los 12 PDFs ya están cargados (jun 2026). El botón
+"Consultar certificado" de /acreditaciones abre cada uno.
+
+Para reemplazar un certificado, sustituye el archivo conservando
+el mismo nombre.

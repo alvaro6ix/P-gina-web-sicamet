@@ -1,36 +1,73 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# SICAMET — Sitio web
 
-## Getting Started
+Rediseño moderno del sitio de **Sistemas Integrales de Calibración A.C. (SICAMET)**,
+laboratorio de metrología acreditado ISO/IEC 17025:2017.
 
-First, run the development server:
+## Stack
+
+- **Next.js 16** (App Router) + **React 19** + **TypeScript**
+- **Tailwind CSS v4** (modo claro/oscuro por clase + View Transitions)
+- **GSAP** + **ScrollTrigger** + **Lenis** (animaciones y smooth scroll)
+- **Framer Motion** (microinteracciones, navbar, chatbot, FAQ)
+- **Embla Carousel** (carruseles) · **lucide-react** (iconos)
+- **@google/generative-ai** (chatbot con Gemini)
+- **MDX** habilitado para contenido (`@next/mdx`)
+
+## Puesta en marcha
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+cp .env.example .env.local   # y completa las claves
+npm run dev                  # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Variables de entorno (`.env.local`)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Variable | Descripción |
+|----------|-------------|
+| `GEMINI_API_KEY` | Clave de Google Gemini para el chatbot. https://aistudio.google.com/app/apikey |
+| `NEXT_PUBLIC_SITE_URL` | URL pública del sitio (metadata, sitemap, OG). |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Estructura
 
-## Learn More
+```
+src/
+├─ app/                     # Rutas (App Router)
+│  ├─ api/chat/             # Endpoint del chatbot (Gemini)
+│  ├─ api/contact/          # Endpoint de formularios
+│  ├─ nosotros, servicios, acreditaciones, contacto, centro-de-quejas
+│  ├─ sitemap.ts, robots.ts # SEO
+│  └─ layout.tsx, page.tsx
+├─ components/
+│  ├─ layout/   (navbar, footer, preloader, whatsapp, page-hero, logo)
+│  ├─ sections/ (hero, servicios, acreditaciones, vaisala, faq, cta…)
+│  ├─ theme/    (provider + toggle estilo rdsx con reveal circular)
+│  ├─ chatbot/  (widget MetroBot)
+│  ├─ seo/      (JSON-LD: Organization, LocalBusiness, FAQ, Breadcrumb)
+│  └─ ui/       (button, container, counter, reveal, icon)
+└─ lib/
+   └─ content.ts            # ⭐ Fuente única de contenido (editar aquí)
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Personalización
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Contenido** (servicios, acreditaciones, contactos, FAQ, datos de la empresa):
+  edita `src/lib/content.ts`. Todo el sitio, el SEO y el chatbot leen de ahí.
+- **Paleta de colores y tema**: variables CSS en `src/app/globals.css`.
+- **PDFs de acreditaciones**: colócalos en `public/acreditaciones/` (ver `LEEME.txt`).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Pendientes para producción
 
-## Deploy on Vercel
+1. Configurar `GEMINI_API_KEY` para activar el chatbot.
+2. Conectar el envío de correo en `src/app/api/contact/route.ts`
+   (recomendado: Resend o Nodemailer → `sclientes@sicamet.net`).
+3. Subir los PDF de certificados a `public/acreditaciones/`.
+4. Añadir imagen Open Graph (`/opengraph-image.png`) y favicon definitivo.
+5. Desplegar en **Vercel** y apuntar el dominio `sicamet.mx`.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## SEO / AEO / GEO
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Metadata + Open Graph + Twitter Card en cada página.
+- JSON-LD: `Organization` + `LocalBusiness` (con geocoordenadas de Toluca),
+  `WebSite`, `FAQPage` (AEO) y `BreadcrumbList`.
+- `sitemap.xml` y `robots.txt` generados dinámicamente.

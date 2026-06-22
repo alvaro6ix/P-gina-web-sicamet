@@ -1,7 +1,16 @@
 import type { NextConfig } from "next";
+import createMDX from "@next/mdx";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  // Permite usar .md / .mdx como páginas y componentes de contenido
+  pageExtensions: ["js", "jsx", "ts", "tsx", "md", "mdx"],
+  images: {
+    formats: ["image/avif", "image/webp"],
+  },
 };
 
-export default nextConfig;
+const withMDX = createMDX({
+  // Se pueden agregar plugins remark/rehype aquí si se necesitan
+});
+
+export default withMDX(nextConfig);
