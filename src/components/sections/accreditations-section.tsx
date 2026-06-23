@@ -47,7 +47,7 @@ export function AccreditationsSection() {
             href="/acreditaciones"
             className="text-sm font-medium text-brand hover:underline"
           >
-            Ver alcances y descargar certificados →
+            Ver alcances y descargar acreditaciones →
           </Link>
         </div>
       </Container>

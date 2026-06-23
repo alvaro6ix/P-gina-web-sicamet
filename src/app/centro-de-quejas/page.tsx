@@ -4,6 +4,7 @@ import { PageHero } from "@/components/layout/page-hero";
 import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/ui/reveal";
 import { LeadForm } from "@/components/sections/lead-form";
+import { ComplaintFlow } from "@/components/sections/complaint-flow";
 import { BreadcrumbJsonLd } from "@/components/seo/json-ld";
 
 export const metadata: Metadata = {
@@ -52,6 +53,20 @@ export default function CentroDeQuejasPage() {
 
       <section className="py-10">
         <Container>
+          <Reveal className="mb-16 border-b border-border pb-14 sm:mb-24 sm:pb-20">
+            <div className="mb-6 text-center">
+              <h2 className="font-display text-xl font-semibold sm:text-2xl">
+                Así atendemos tu queja
+              </h2>
+              <p className="mx-auto mt-2 max-w-2xl text-sm text-muted">
+                Proceso formal de cinco pasos con dos puntos de decisión y lazos
+                de retroalimentación. Pasa el cursor o toca cada etapa para ver
+                su detalle.
+              </p>
+            </div>
+            <ComplaintFlow />
+          </Reveal>
+
           <Reveal stagger className="mb-10 grid gap-4 sm:grid-cols-3">
             {principles.map((p) => (
               <div

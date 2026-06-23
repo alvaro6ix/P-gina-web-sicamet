@@ -1082,3 +1082,540 @@
     opacity: 0;
   }
 }
+
+/* =====================================================================
+   MAPA DE CONTACTO — futurista, UN solo acento amarillo, SIN gradientes,
+   adaptable a tema claro/oscuro.  ·  Mapbox GL
+   ===================================================================== */
+.cyber-map {
+  --map-accent: #ffd300; /* único color de acento */
+  --map-surface: rgba(255, 255, 255, 0.72); /* glass claro */
+  --map-ink: #16233a;
+  --map-ink-soft: #51617a;
+  --map-line: rgba(0, 0, 0, 0.12);
+  --map-frame: rgba(0, 0, 0, 0.08);
+  position: relative;
+  overflow: hidden;
+  border-radius: 1.5rem;
+  isolation: isolate;
+  background: var(--background-soft);
+  border: 1px solid var(--map-frame);
+  box-shadow:
+    0 18px 50px -22px rgba(0, 0, 0, 0.35),
+    inset 0 0 0 1px rgba(255, 211, 0, 0.12);
+}
+.dark .cyber-map {
+  --map-surface: rgba(10, 18, 34, 0.66);
+  --map-ink: #eaf1ff;
+  --map-ink-soft: #9fb0cc;
+  --map-line: rgba(255, 211, 0, 0.18);
+  --map-frame: rgba(255, 211, 0, 0.22);
+  background: #060b16;
+  box-shadow:
+    0 18px 50px -20px rgba(0, 0, 0, 0.7),
+    inset 0 0 0 1px rgba(255, 211, 0, 0.16);
+}
+
+.cyber-map__canvas {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+  border: 0;
+}
+/* El estilo de Mapbox ya cambia claro/oscuro; sólo un ligero realce. */
+.cyber-map .mapboxgl-canvas {
+  filter: saturate(1.05) contrast(1.03);
+}
+/* Fallback iframe (Google): se oscurece SOLO en modo oscuro. */
+.cyber-map__iframe {
+  filter: saturate(1.05) contrast(1.03);
+  pointer-events: none; /* evita el aviso "Ctrl+scroll" de Google */
+}
+.dark .cyber-map__iframe {
+  filter: invert(0.92) hue-rotate(180deg) saturate(0.85) brightness(0.95)
+    contrast(1.05);
+}
+/* Capa transparente que hace todo el mapa clickeable → abre Google Maps */
+.cyber-map__cover {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: block;
+}
+.cyber-map .mapboxgl-ctrl-logo,
+.cyber-map .mapboxgl-ctrl-attrib {
+  opacity: 0.4;
+}
+
+/* Controles de zoom con piel acorde al tema + acento amarillo */
+.cyber-map .mapboxgl-ctrl-group {
+  background: var(--map-surface);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--map-frame);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.cyber-map .mapboxgl-ctrl-group button + button {
+  border-top: 1px solid var(--map-line);
+}
+.cyber-map .mapboxgl-ctrl-group button {
+  width: 34px;
+  height: 34px;
+  background: transparent;
+}
+.cyber-map .mapboxgl-ctrl-group button:hover {
+  background: rgba(255, 211, 0, 0.18);
+}
+.dark .cyber-map .mapboxgl-ctrl-group button .mapboxgl-ctrl-icon {
+  filter: invert(1);
+}
+.cyber-map .mapboxgl-ctrl-bottom-right {
+  z-index: 5;
+}
+
+/* Borde de degradado de oscurecido SOLO con box-shadow (no es gradiente) */
+.cyber-map__vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+  box-shadow: inset 0 0 90px -24px rgba(0, 0, 0, 0.6);
+}
+.dark .cyber-map__vignette {
+  box-shadow: inset 0 0 110px -18px rgba(0, 0, 0, 0.85);
+}
+
+/* Tinte amarillo SÓLIDO (no gradiente) que unifica el mapa con la marca */
+.cyber-map__tint {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: #c9a437; /* amarillo apagado/mate (no brillante) */
+  opacity: 0.09;
+  mix-blend-mode: soft-light;
+}
+.dark .cyber-map__tint {
+  opacity: 0.12;
+  mix-blend-mode: overlay;
+}
+
+/* Borde interior con glow amarillo pulsante (anima opacidad, no color) */
+.cyber-map__edge {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  border-radius: 1.5rem;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 211, 0, 0.55),
+    inset 0 0 26px -6px rgba(255, 211, 0, 0.55);
+  animation: cmap-edge 3.6s ease-in-out infinite;
+}
+@keyframes cmap-edge {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Línea de barrido: una sola línea sólida amarilla (sin gradiente) */
+.cyber-map__scan {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 2px;
+  pointer-events: none;
+  z-index: 3;
+  background: var(--map-accent);
+  opacity: 0.55;
+  box-shadow: 0 0 12px 1px rgba(255, 211, 0, 0.7);
+  animation: cmap-scan 6.5s linear infinite;
+}
+@keyframes cmap-scan {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  8% {
+    opacity: 0.55;
+  }
+  92% {
+    opacity: 0.55;
+  }
+  100% {
+    transform: translateY(500px);
+    opacity: 0;
+  }
+}
+
+/* Esquinas tipo HUD — amarillo sólido */
+.cyber-map__corner {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  z-index: 4;
+  pointer-events: none;
+  border: 2px solid var(--map-accent);
+  opacity: 0.85;
+}
+.cyber-map__corner--tl {
+  top: 14px;
+  left: 14px;
+  border-right: 0;
+  border-bottom: 0;
+}
+.cyber-map__corner--tr {
+  top: 14px;
+  right: 14px;
+  border-left: 0;
+  border-bottom: 0;
+}
+.cyber-map__corner--bl {
+  bottom: 14px;
+  left: 14px;
+  border-right: 0;
+  border-top: 0;
+}
+.cyber-map__corner--br {
+  bottom: 14px;
+  right: 14px;
+  border-left: 0;
+  border-top: 0;
+}
+
+/* Chip de telemetría */
+.cyber-map__status {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px;
+  border-radius: 999px;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: var(--map-ink);
+  background: var(--map-surface);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--map-frame);
+}
+.cyber-map__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--map-accent);
+  box-shadow: 0 0 8px rgba(255, 211, 0, 0.9);
+  animation: cmap-blink 1.4s ease-in-out infinite;
+}
+@keyframes cmap-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.25;
+  }
+}
+.cyber-map__coords {
+  color: var(--map-ink-soft);
+}
+@media (max-width: 520px) {
+  .cyber-map__coords {
+    display: none;
+  }
+}
+
+/* Píldora ABIERTO / CERRADO — abierto = amarillo sólido; cerrado = contorno */
+.cyber-map__open {
+  position: absolute;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 6;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+.cyber-map__open--on {
+  color: #1a1500;
+  background: var(--map-accent);
+  box-shadow: 0 0 18px -4px rgba(255, 211, 0, 0.85);
+}
+.cyber-map__open--off {
+  color: var(--map-ink);
+  background: var(--map-surface);
+  border: 1px solid var(--map-frame);
+}
+.cyber-map__open .cmap-livedot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 8px currentColor;
+}
+.cyber-map__open--on .cmap-livedot {
+  animation: cmap-blink 1.5s ease-in-out infinite;
+}
+
+/* Tarjeta glassmorphism — compacta, anclada arriba-izquierda (no tapa el mapa) */
+.cyber-map__card {
+  position: absolute;
+  z-index: 6;
+  left: 14px;
+  right: auto;
+  top: 14px;
+  width: max-content;
+  max-width: min(19rem, calc(100% - 28px));
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px 15px;
+  border-radius: 1rem;
+  color: var(--map-ink);
+  background: var(--map-surface);
+  backdrop-filter: blur(18px) saturate(1.2);
+  -webkit-backdrop-filter: blur(18px) saturate(1.2);
+  border: 1px solid var(--map-frame);
+  box-shadow: 0 12px 40px -16px rgba(0, 0, 0, 0.5);
+}
+.cyber-map__cardhead {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.cyber-map__badge {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  color: #1a1500;
+  background: var(--map-accent);
+  box-shadow: 0 0 16px -4px rgba(255, 211, 0, 0.7);
+}
+.cyber-map__name {
+  font-family: var(--font-display, inherit);
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1.1;
+}
+.cyber-map__eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--map-ink-soft);
+}
+.cyber-map__addr {
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: var(--map-ink-soft);
+}
+.cyber-map__row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  color: var(--map-ink-soft);
+}
+.cyber-map__row svg {
+  color: var(--map-accent);
+}
+.cyber-map__hours--on,
+.cyber-map__hours--off {
+  font-weight: 600;
+  color: var(--map-ink);
+}
+.cyber-map__cta {
+  margin-top: 2px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 20px;
+  border-radius: 999px;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #1a1500;
+  background: var(--map-accent);
+  box-shadow: 0 8px 22px -10px rgba(255, 211, 0, 0.8);
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
+}
+.cyber-map__cta:hover {
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: 0 10px 28px -8px rgba(255, 211, 0, 0.95);
+}
+
+/* ---------- Pin: núcleo + anillos pulsantes + radar (todo amarillo) ---------- */
+.cyber-map__staticpin {
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  width: 0;
+  height: 0;
+  z-index: 5;
+  pointer-events: none;
+}
+/* Etiqueta tipo callout sobre el pin */
+.cmap-pin__label {
+  position: absolute;
+  left: 50%;
+  bottom: 20px;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: #1a1500;
+  background: #ffd300;
+  box-shadow:
+    0 5px 14px -4px rgba(0, 0, 0, 0.45),
+    0 0 16px -4px rgba(255, 211, 0, 0.85);
+  animation: cmap-label 3s ease-in-out infinite;
+}
+@keyframes cmap-label {
+  0%,
+  100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) translateY(-3px);
+  }
+}
+.cmap-pin {
+  position: relative;
+  width: 18px;
+  height: 18px;
+}
+.cmap-pin__core {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 13px;
+  height: 13px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: #ffd300;
+  box-shadow:
+    0 0 0 2px rgba(255, 255, 255, 0.85),
+    0 0 10px rgba(255, 211, 0, 0.95),
+    0 0 22px rgba(255, 211, 0, 0.75);
+  animation: cmap-core 1.6s ease-in-out infinite;
+}
+@keyframes cmap-core {
+  0%,
+  100% {
+    box-shadow:
+      0 0 0 2px rgba(255, 255, 255, 0.85),
+      0 0 10px rgba(255, 211, 0, 0.95),
+      0 0 22px rgba(255, 211, 0, 0.75);
+  }
+  50% {
+    box-shadow:
+      0 0 0 2px rgba(255, 255, 255, 0.95),
+      0 0 16px rgba(255, 211, 0, 1),
+      0 0 34px rgba(255, 211, 0, 0.85);
+  }
+}
+.cmap-pin__ring {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 18px;
+  height: 18px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 2px solid #ffd300;
+  animation: cmap-ping 2.6s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
+.cmap-pin__ring--2 {
+  animation-delay: 1.3s;
+}
+@keyframes cmap-ping {
+  0% {
+    width: 18px;
+    height: 18px;
+    opacity: 0.9;
+  }
+  100% {
+    width: 130px;
+    height: 130px;
+    opacity: 0;
+  }
+}
+/* Radar = una sola aguja sólida que gira (sin gradiente cónico) */
+.cmap-pin__radar {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 2px;
+  height: 66px;
+  transform-origin: top center;
+  transform: translate(-50%, 0) rotate(0deg);
+  background: #ffd300;
+  opacity: 0.5;
+  box-shadow: 0 0 8px 1px rgba(255, 211, 0, 0.7);
+  animation: cmap-radar 3.4s linear infinite;
+}
+@keyframes cmap-radar {
+  to {
+    transform: translate(-50%, 0) rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cyber-map__scan,
+  .cyber-map__edge,
+  .cmap-pin__ring,
+  .cmap-pin__radar,
+  .cmap-pin__core,
+  .cmap-pin__label,
+  .cyber-map__dot {
+    animation: none;
+  }
+  .cyber-map__scan {
+    display: none;
+  }
+}
+
+/* ---------- Diagrama de quejas: flujo animado en la arista activa ---------- */
+.cf-edge {
+  transition: stroke-width 0.15s ease;
+}
+.cf-edge--on {
+  stroke-dasharray: 8 7;
+  animation: cf-flow 0.55s linear infinite;
+}
+@keyframes cf-flow {
+  to {
+    stroke-dashoffset: -15;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cf-edge--on {
+    animation: none;
+  }
+}

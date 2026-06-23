@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Download, ShieldCheck } from "lucide-react";
+import { Eye, ShieldCheck } from "lucide-react";
 import { accreditations } from "@/lib/content";
 import { PageHero } from "@/components/layout/page-hero";
 import { Container } from "@/components/ui/container";
@@ -68,8 +68,8 @@ export default function AcreditacionesPage() {
                   rel="noopener noreferrer"
                   className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-brand transition-colors hover:text-gold-ink"
                 >
-                  <Download className="h-4 w-4" />
-                  Consultar certificado
+                  <Eye className="h-4 w-4" />
+                  Ver acreditación
                 </a>
               </div>
             ))}
