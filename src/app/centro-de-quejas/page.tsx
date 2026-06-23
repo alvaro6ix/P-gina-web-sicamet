@@ -94,7 +94,13 @@ export default function CentroDeQuejasPage() {
             <Reveal>
               <LeadForm
                 type="queja"
-                subjectLabel="Tipo de caso (queja, sugerencia, comentario)"
+                subjectLabel="Tipo de caso"
+                subjectOptions={[
+                  "Queja",
+                  "Sugerencia",
+                  "Comentario",
+                  "Otro",
+                ]}
                 messageLabel="Describe tu caso a detalle"
                 submitLabel="Enviar queja"
               />

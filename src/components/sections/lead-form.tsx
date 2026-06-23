@@ -25,11 +25,14 @@ const baseFields: Field[] = [
 export function LeadForm({
   type = "contacto",
   subjectLabel = "Asunto",
+  subjectOptions,
   messageLabel = "Mensaje",
   submitLabel = "Enviar mensaje",
 }: {
   type?: "contacto" | "queja";
   subjectLabel?: string;
+  /** Si se pasa, el campo "asunto" se vuelve un selector con estas opciones. */
+  subjectOptions?: string[];
   messageLabel?: string;
   submitLabel?: string;
 }) {
@@ -37,27 +40,78 @@ export function LeadForm({
     "idle",
   );
   const [feedback, setFeedback] = useState("");
+  const [caseType, setCaseType] = useState("");
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    const formEl = e.currentTarget;
+    const form = new FormData(formEl);
+    const val = (k: string) => ((form.get(k) as string | null) || "").trim();
+
+    // Validación mínima en cliente.
+    const name = val("name");
+    const email = val("email");
+    const message = val("message");
+    if (!name || !email || !message) {
+      setStatus("error");
+      setFeedback("Nombre, correo y mensaje son obligatorios.");
+      return;
+    }
+
+    const accessKey = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY;
+    if (!accessKey) {
+      setStatus("error");
+      setFeedback("El envío de correo aún no está configurado.");
+      return;
+    }
+
+    // Asunto: si es selector y eligió "Otro", usa lo que escribió.
+    let subject = val("subject");
+    if (subjectOptions && subject === "Otro") {
+      const other = val("subjectOther");
+      subject = other ? `Otro: ${other}` : "Otro";
+    }
+
     setStatus("loading");
-    const form = new FormData(e.currentTarget);
-    const payload = Object.fromEntries(form.entries());
+    const label = type === "queja" ? "Queja / Sugerencia" : "Contacto";
 
     try {
-      const res = await fetch("/api/contact", {
+      // Web3Forms (plan gratis) solo acepta envíos desde el navegador.
+      const res = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...payload, type }),
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          access_key: accessKey,
+          subject: `[${label}] ${subject || name} — sicamet.mx`,
+          from_name: `SICAMET Web · ${name}`,
+          email, // reply-to: al responder, va directo al cliente
+          botcheck: val("botcheck") ? "true" : "",
+          Tipo: label,
+          Nombre: name,
+          Correo: email,
+          Teléfono: val("phone") || "—",
+          Empresa: val("company") || "—",
+          Asunto: subject || "—",
+          Mensaje: message,
+        }),
       });
-      const data = await res.json();
-      if (res.ok) {
+      const data = (await res.json()) as { success?: boolean; message?: string };
+      if (res.ok && data.success) {
         setStatus("ok");
-        setFeedback(data.message);
-        (e.target as HTMLFormElement).reset();
+        setFeedback(
+          "¡Gracias! Hemos recibido tu mensaje y te contactaremos pronto.",
+        );
+        formEl.reset();
+        setCaseType("");
       } else {
         setStatus("error");
-        setFeedback(data.error || "Ocurrió un error.");
+        setFeedback(
+          data.message ||
+            "No pudimos enviar tu mensaje. Inténtalo de nuevo o escríbenos por WhatsApp.",
+        );
       }
     } catch {
       setStatus("error");
@@ -71,7 +125,10 @@ export function LeadForm({
         <CheckCircle2 className="h-14 w-14 text-brand" />
         <p className="max-w-sm text-pretty text-muted">{feedback}</p>
         <button
-          onClick={() => setStatus("idle")}
+          onClick={() => {
+            setStatus("idle");
+            setCaseType("");
+          }}
           className="text-sm font-medium text-brand hover:underline"
         >
           Enviar otro mensaje
@@ -85,16 +142,65 @@ export function LeadForm({
       onSubmit={onSubmit}
       className="grid gap-4 rounded-3xl border border-border bg-card/50 p-6 sm:p-8 sm:grid-cols-2"
     >
+      {/* honeypot anti-spam (oculto a usuarios reales) */}
+      <input
+        type="checkbox"
+        name="botcheck"
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+        className="hidden"
+        style={{ display: "none" }}
+      />
       {baseFields.map((f) => (
         <FieldInput key={f.name} field={f} />
       ))}
-      <FieldInput
-        field={{
-          name: "subject",
-          label: subjectLabel,
-          full: true,
-        }}
-      />
+
+      {subjectOptions ? (
+        <div className="grid gap-4 sm:col-span-2">
+          <label className="block">
+            <span className="mb-1.5 block text-sm font-medium">
+              {subjectLabel}
+              <span className="text-brand"> *</span>
+            </span>
+            <select
+              name="subject"
+              required
+              value={caseType}
+              onChange={(e) => setCaseType(e.target.value)}
+              className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none transition-colors focus:border-brand"
+            >
+              <option value="" disabled>
+                Selecciona una opción
+              </option>
+              {subjectOptions.map((o) => (
+                <option key={o} value={o}>
+                  {o}
+                </option>
+              ))}
+            </select>
+          </label>
+          {caseType === "Otro" && (
+            <FieldInput
+              field={{
+                name: "subjectOther",
+                label: "Especifica cuál",
+                required: true,
+                full: true,
+                placeholder: "Escribe el tipo de caso",
+              }}
+            />
+          )}
+        </div>
+      ) : (
+        <FieldInput
+          field={{
+            name: "subject",
+            label: subjectLabel,
+            full: true,
+          }}
+        />
+      )}
       <FieldInput
         field={{
           name: "message",
