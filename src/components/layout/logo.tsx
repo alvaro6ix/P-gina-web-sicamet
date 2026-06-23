@@ -2,14 +2,23 @@ import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
-/** Logo oficial de SICAMET. Cambia entre versión clara/oscura según el tema. */
+/**
+ * Logo oficial de SICAMET. Cambia entre versión clara/oscura según el tema.
+ * `size` fija la altura en px; si se pasa `heightClassName` (ej. "h-12 lg:h-14")
+ * la altura la controla esa clase (permite tamaños responsive).
+ */
 export function Logo({
   className,
   size = 46,
+  heightClassName,
 }: {
   className?: string;
   size?: number;
+  heightClassName?: string;
 }) {
+  const style = heightClassName
+    ? { width: "auto" as const }
+    : { height: size, width: "auto" as const };
   return (
     <Link
       href="/"
@@ -24,8 +33,8 @@ export function Logo({
         height={size * 2}
         quality={100}
         priority
-        className="block dark:hidden"
-        style={{ height: size, width: "auto" }}
+        className={cn("block w-auto dark:hidden", heightClassName)}
+        style={style}
       />
       {/* Modo oscuro: logo blanco transparente */}
       <Image
@@ -35,8 +44,8 @@ export function Logo({
         height={size * 2}
         quality={100}
         priority
-        className="hidden dark:block"
-        style={{ height: size, width: "auto" }}
+        className={cn("hidden w-auto dark:block", heightClassName)}
+        style={style}
       />
     </Link>
   );

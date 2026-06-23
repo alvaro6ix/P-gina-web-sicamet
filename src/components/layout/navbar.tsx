@@ -61,9 +61,9 @@ export function Navbar() {
         )}
       >
         <div className="flex shrink-0 items-center gap-2.5">
-          <Logo size={44} className="shrink-0" />
-          <span className="h-8 w-px shrink-0 bg-border" />
-          <VaisalaLogo heightClassName="h-7 lg:h-10" className="shrink-0" />
+          <Logo heightClassName="h-12 lg:h-14" className="shrink-0" />
+          <span className="h-9 w-px shrink-0 bg-border lg:h-11" />
+          <VaisalaLogo heightClassName="h-11 lg:h-12" className="shrink-0" />
         </div>
 
         <nav className="hidden items-center gap-0.5 lg:flex">
