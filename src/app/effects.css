@@ -1619,3 +1619,80 @@
     animation: none;
   }
 }
+
+/* ---------- Bot launcher: orbe IA giratorio (glow) + icono ---------- */
+.bot-gen-loader {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background-color: #0a1f4d; /* disco navy: el orbe contrasta en claro y oscuro */
+  box-shadow: 0 10px 24px -8px rgba(8, 20, 50, 0.55);
+  pointer-events: none;
+}
+.bot-gen-spin {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background-color: transparent;
+  animation: bot-gen-rotate 2s linear infinite;
+}
+/* Modo CLARO: amarillo más intenso para que no se pierda */
+@keyframes bot-gen-rotate {
+  0% {
+    transform: rotate(90deg);
+    box-shadow:
+      0 6px 11px 0 #ffd84a inset,
+      0 9px 13px 0 #3b86f7 inset,
+      0 27px 27px 0 #0e3f8f inset;
+  }
+  50% {
+    transform: rotate(270deg);
+    box-shadow:
+      0 6px 11px 0 #ffe680 inset,
+      0 13px 11px 0 #ffd400 inset,
+      0 20px 30px 0 #1456c9 inset;
+  }
+  100% {
+    transform: rotate(450deg);
+    box-shadow:
+      0 6px 11px 0 #ffd84a inset,
+      0 9px 13px 0 #3b86f7 inset,
+      0 27px 27px 0 #0e3f8f inset;
+  }
+}
+/* Modo OSCURO: se mantiene tal cual (ya lucía bien) */
+.dark .bot-gen-spin {
+  animation-name: bot-gen-rotate-dark;
+}
+@keyframes bot-gen-rotate-dark {
+  0% {
+    transform: rotate(90deg);
+    box-shadow:
+      0 5px 9px 0 #ffe27a inset,
+      0 9px 13px 0 #3b86f7 inset,
+      0 27px 27px 0 #0e3f8f inset;
+  }
+  50% {
+    transform: rotate(270deg);
+    box-shadow:
+      0 5px 9px 0 #ffe27a inset,
+      0 9px 5px 0 #ffd300 inset,
+      0 18px 27px 0 #1456c9 inset;
+  }
+  100% {
+    transform: rotate(450deg);
+    box-shadow:
+      0 5px 9px 0 #ffe27a inset,
+      0 9px 13px 0 #3b86f7 inset,
+      0 27px 27px 0 #0e3f8f inset;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bot-gen-spin {
+    animation: none;
+    box-shadow:
+      0 5px 9px 0 #ffe27a inset,
+      0 9px 13px 0 #ffd300 inset,
+      0 27px 27px 0 #1456c9 inset;
+  }
+}

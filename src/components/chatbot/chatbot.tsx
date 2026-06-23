@@ -124,26 +124,14 @@ export function Chatbot() {
         onClick={() => setOpen((v) => !v)}
         whileHover={{ scale: 1.06 }}
         whileTap={{ scale: 0.95 }}
-        className="fixed bottom-6 right-6 z-50 h-16 w-16"
+        className="fixed bottom-6 right-6 z-50 h-16 w-16 rounded-full"
       >
-        <span className="bot-orb-loader" aria-hidden>
-          <svg width={100} height={100} viewBox="0 0 100 100">
-            <defs>
-              <mask id="bot-clipping">
-                <polygon points="0,0 100,0 100,100 0,100" fill="black" />
-                <polygon points="25,25 75,25 50,75" fill="white" />
-                <polygon points="50,25 75,75 25,75" fill="white" />
-                <polygon points="35,35 65,35 50,65" fill="white" />
-                <polygon points="35,35 65,35 50,65" fill="white" />
-                <polygon points="35,35 65,35 50,65" fill="white" />
-                <polygon points="35,35 65,35 50,65" fill="white" />
-              </mask>
-            </defs>
-          </svg>
-          <span className="box" />
+        {/* Orbe IA giratorio con glow */}
+        <span className="bot-gen-loader" aria-hidden>
+          <span className="bot-gen-spin" />
         </span>
 
-        {/* ícono robot blanco encima, sin fondo */}
+        {/* icono robot blanco encima */}
         <span className="absolute inset-0 z-10 grid place-items-center text-white">
           <AnimatePresence mode="wait" initial={false}>
             {open ? (
