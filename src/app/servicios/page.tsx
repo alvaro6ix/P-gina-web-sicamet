@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { CheckCircle2 } from "lucide-react";
 import { services } from "@/lib/content";
+import { highlightBrand } from "@/lib/highlight-brand";
 import { PageHero } from "@/components/layout/page-hero";
 import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/ui/reveal";
@@ -60,7 +61,7 @@ export default function ServiciosPage() {
                       className="flex items-start gap-3 rounded-xl border border-border bg-background/60 px-4 py-3 text-sm"
                     >
                       <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-success" />
-                      <span>{b}</span>
+                      <span>{highlightBrand(b)}</span>
                     </li>
                   ))}
                 </ul>

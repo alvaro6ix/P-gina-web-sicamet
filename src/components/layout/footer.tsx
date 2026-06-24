@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Mail, MapPin, Phone } from "lucide-react";
-import { navLinks, services, site, whatsappUrl } from "@/lib/content";
+import { navLinks, site, whatsappUrl } from "@/lib/content";
 import { Logo, VaisalaLogo } from "./logo";
 import { Container } from "@/components/ui/container";
 import { WhatsappGlyph } from "@/components/ui/whatsapp-glyph";
@@ -9,15 +9,15 @@ export function Footer() {
   return (
     <footer className="relative mt-24 border-t border-border bg-background-soft">
       <div className="bg-grid absolute inset-0 opacity-60" aria-hidden />
-      <Container className="relative py-16">
-        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
+      <Container className="relative py-8">
+        <div className="grid gap-x-10 gap-y-8 md:grid-cols-2 lg:grid-cols-4">
           <div className="lg:col-span-1">
             <div className="flex flex-wrap items-center gap-3">
               <Logo size={48} />
               <span className="h-8 w-px bg-border" />
               <VaisalaLogo height={28} />
             </div>
-            <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted">
+            <p className="mt-4 max-w-xs text-justify text-sm leading-relaxed text-muted">
               {site.legalName}. Metrología acreditada bajo ISO/IEC 17025:2017.
               Único partner de Vaisala en México.
             </p>
@@ -47,83 +47,77 @@ export function Footer() {
             </div>
           </div>
 
-          <div>
+          <div className="text-center sm:text-left lg:text-center">
             <h3 className="text-sm font-semibold uppercase tracking-wider text-foreground">
               Navegación
             </h3>
-            <ul className="mt-4 space-y-2.5 text-sm">
-              {navLinks.map((l) => (
-                <li key={l.href}>
-                  <Link
-                    href={l.href}
-                    className="text-muted transition-colors hover:text-brand"
-                  >
-                    {l.label}
-                  </Link>
-                </li>
+            <div className="mt-4 grid grid-cols-2 gap-x-6 text-sm">
+              {[
+                navLinks.slice(0, 4),
+                [
+                  ...navLinks.slice(4),
+                  { label: "Privacidad", href: "/aviso-de-privacidad" },
+                ],
+              ].map((group, i) => (
+                <ul key={i} className="space-y-2.5">
+                  {group.map((l) => (
+                    <li key={l.href}>
+                      <Link
+                        href={l.href}
+                        className="text-muted transition-colors hover:text-brand"
+                      >
+                        {l.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
               ))}
-            </ul>
+            </div>
           </div>
 
-          <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-foreground">
-              Servicios
-            </h3>
-            <ul className="mt-4 space-y-2.5 text-sm">
-              {services.map((s) => (
-                <li key={s.slug}>
-                  <Link
-                    href={`/servicios#${s.slug}`}
-                    className="text-muted transition-colors hover:text-brand"
-                  >
-                    {s.title}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
+          <div className="text-center sm:text-left lg:col-span-2 lg:text-center">
             <h3 className="text-sm font-semibold uppercase tracking-wider text-foreground">
               Contacto
             </h3>
-            <ul className="mt-4 space-y-3 text-sm text-muted">
-              <li className="flex gap-3">
+            <div className="mx-auto mt-4 w-fit text-left text-sm text-muted">
+              <p className="flex items-start gap-3">
                 <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-brand" />
                 <span>{site.address.full}</span>
-              </li>
-              {site.phones.map((p) => (
-                <li key={p} className="flex gap-3">
-                  <Phone className="h-4 w-4 shrink-0 text-brand" />
-                  <a href={`tel:${p.replace(/-/g, "")}`} className="hover:text-brand">
-                    {p}
+              </p>
+              <ul className="mt-3 grid grid-flow-col grid-rows-3 items-start gap-x-10 gap-y-3">
+                {site.phones.map((p) => (
+                  <li key={p} className="flex items-center gap-3">
+                    <Phone className="h-4 w-4 shrink-0 text-brand" />
+                    <a href={`tel:${p.replace(/-/g, "")}`} className="hover:text-brand">
+                      {p}
+                    </a>
+                  </li>
+                ))}
+                <li className="flex items-center gap-3">
+                  <WhatsappGlyph className="h-4 w-4 shrink-0 text-[#25D366]" />
+                  <a
+                    href={whatsappUrl(
+                      "Hola SICAMET, me gustaría solicitar información.",
+                    )}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="whitespace-nowrap hover:text-[#25D366]"
+                  >
+                    WhatsApp: {site.whatsappDisplay}
                   </a>
                 </li>
-              ))}
-              <li className="flex gap-3">
-                <WhatsappGlyph className="h-4 w-4 shrink-0 text-[#25D366]" />
-                <a
-                  href={whatsappUrl(
-                    "Hola SICAMET, me gustaría solicitar información.",
-                  )}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-[#25D366]"
-                >
-                  WhatsApp: {site.whatsappDisplay}
-                </a>
-              </li>
-              <li className="flex gap-3">
-                <Mail className="h-4 w-4 shrink-0 text-brand" />
-                <a href={`mailto:${site.email}`} className="hover:text-brand">
-                  {site.email}
-                </a>
-              </li>
-            </ul>
+                <li className="flex items-center gap-3">
+                  <Mail className="h-4 w-4 shrink-0 text-brand" />
+                  <a href={`mailto:${site.email}`} className="hover:text-brand">
+                    {site.email}
+                  </a>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-border pt-6 text-xs text-muted sm:flex-row">
+        <div className="mt-6 flex flex-col items-center gap-3 border-t border-border pt-4 text-center text-xs text-muted">
           <p>
             © {new Date().getFullYear()} {site.legalName}. Todos los derechos
             reservados.

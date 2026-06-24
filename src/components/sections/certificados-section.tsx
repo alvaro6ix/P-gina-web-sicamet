@@ -1,5 +1,6 @@
 import { CheckCircle2, Lock, Clock, Download } from "lucide-react";
 import { certificatesPortal } from "@/lib/content";
+import { highlightBrand } from "@/lib/highlight-brand";
 import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/ui/reveal";
 import { Certificate } from "@/components/metrology/instruments";
@@ -47,7 +48,8 @@ export function CertificadosSection() {
                 <span className="text-gold">certificados</span> en línea
               </h2>
               <p className="mt-4 max-w-lg leading-relaxed text-muted">
-                Accede al Portal de Certificados SICAMET con tu Razón Social y tu
+                Accede al Portal de Certificados{" "}
+                <strong className="font-bold">SICAMET</strong> con tu Razón Social y tu
                 Código de acceso. Monitorea el estatus en tiempo real y descarga
                 tus certificados aprobados desde cualquier dispositivo.
               </p>
@@ -56,7 +58,7 @@ export function CertificadosSection() {
                 {certificatesPortal.features.slice(0, 4).map((f) => (
                   <li key={f} className="flex items-start gap-2.5 text-sm">
                     <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-success" />
-                    <span>{f}</span>
+                    <span>{highlightBrand(f)}</span>
                   </li>
                 ))}
               </ul>

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Plus } from "lucide-react";
 import { faqs } from "@/lib/content";
+import { highlightBrand } from "@/lib/highlight-brand";
 import { Container, SectionHeading } from "@/components/ui/container";
 
 export function FaqSection() {
@@ -26,7 +27,7 @@ export function FaqSection() {
                   onClick={() => setOpen(active ? null : i)}
                   className="flex w-full items-center justify-between gap-4 py-5 text-left"
                 >
-                  <span className="font-medium">{f.q}</span>
+                  <span className="font-medium">{highlightBrand(f.q)}</span>
                   <Plus
                     className={`h-5 w-5 shrink-0 text-brand transition-transform duration-300 ${
                       active ? "rotate-45" : ""
@@ -43,7 +44,7 @@ export function FaqSection() {
                       className="overflow-hidden"
                     >
                       <p className="pb-5 text-sm leading-relaxed text-muted">
-                        {f.a}
+                        {highlightBrand(f.a)}
                       </p>
                     </motion.div>
                   )}

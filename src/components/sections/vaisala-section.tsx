@@ -46,7 +46,8 @@ export function VaisalaSection() {
               </div>
               <h2 className="mt-5 font-display text-3xl font-bold tracking-tight sm:text-4xl">
                 Único partner de{" "}
-                <span className="text-gradient">Vaisala</span> en México
+                {/* Thunder Blue oficial Vaisala (#0A2A3D); blanco en oscuro como el logo */}
+                <span className="text-[#0a2a3d] dark:text-white">Vaisala</span> en México
               </h2>
               <p className="mt-4 max-w-lg leading-relaxed text-muted">
                 Como partner certificado y avalado por Vaisala, ofrecemos soporte

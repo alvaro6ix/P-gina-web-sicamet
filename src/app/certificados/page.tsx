@@ -9,6 +9,7 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import { certificatesPortal } from "@/lib/content";
+import { highlightBrand } from "@/lib/highlight-brand";
 import { PageHero } from "@/components/layout/page-hero";
 import { Container, SectionHeading } from "@/components/ui/container";
 import { Reveal } from "@/components/ui/reveal";
@@ -134,7 +135,7 @@ export default function CertificadosPage() {
                   {s.title}
                 </h3>
                 <p className="mt-2 text-sm leading-relaxed text-muted">
-                  {s.text}
+                  {highlightBrand(s.text)}
                 </p>
               </div>
             ))}
@@ -153,7 +154,7 @@ export default function CertificadosPage() {
               {certificatesPortal.features.map((f) => (
                 <li key={f} className="flex items-start gap-3 text-sm">
                   <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-success" />
-                  <span>{f}</span>
+                  <span>{highlightBrand(f)}</span>
                 </li>
               ))}
             </ul>

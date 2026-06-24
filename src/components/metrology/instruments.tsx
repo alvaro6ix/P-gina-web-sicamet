@@ -201,7 +201,7 @@ export function Certificate({ className }: Props) {
         <circle cx="46" cy="37" r="12" fill="#fff" />
         <circle cx="46" cy="37" r="12" fill="none" stroke="#bcd4f7" strokeWidth="1.2" opacity="0.7" />
         <text x="46" y="41" textAnchor="middle" fontSize="9" fontWeight="800" fill="#0e3f8f" className="font-display">S</text>
-        <text x="66" y="34" fontSize="13" fontWeight="700" fill="#fff" className="font-display">
+        <text x="66" y="34" fontSize="13" fontWeight="800" fill="#fff" className="font-display">
           SICAMET
         </text>
         <text x="66" y="47" fontSize="7.5" fill="#dbe6fb" letterSpacing="0.5">
