@@ -1,7 +1,7 @@
+import type { CSSProperties } from "react";
 import Link from "next/link";
 import { ArrowRight, ShieldCheck, FileCheck2 } from "lucide-react";
 import { Container, SectionHeading } from "@/components/ui/container";
-import { Reveal } from "@/components/ui/reveal";
 import { Instrument } from "@/components/metrology/instruments";
 
 const nodes = [
@@ -14,9 +14,13 @@ const nodes = [
 ];
 
 /** Conector con flujo animado (horizontal en desktop, vertical en móvil). */
-function FlowConnector() {
+function FlowConnector({ delay = 0 }: { delay?: number }) {
   return (
-    <div className="flex items-center justify-center lg:py-0 py-1">
+    <div
+      data-reveal
+      style={{ "--reveal-delay": `${delay}s` } as CSSProperties}
+      className="flex items-center justify-center lg:py-0 py-1"
+    >
       <svg
         viewBox="0 0 80 24"
         className="h-6 w-16 rotate-90 lg:rotate-0"
@@ -53,13 +57,17 @@ export function MagnitudesSection() {
       <Container className="relative">
         <SectionHeading
           eyebrow="Trazabilidad"
-          title="De la magnitud al certificado"
+          title={
+            <>
+              De la magnitud al <span className="text-accent">certificado</span>
+            </>
+          }
           description="Cada instrumento sigue una cadena de trazabilidad acreditada: lo medimos, lo calibramos bajo ISO/IEC 17025 y emitimos un certificado con validez internacional."
         />
 
-        <Reveal className="mt-14 grid items-stretch gap-3 lg:grid-cols-[minmax(0,1.5fr)_auto_minmax(0,1fr)_auto_minmax(0,1fr)]">
+        <div className="mt-14 grid items-stretch gap-3 lg:grid-cols-[minmax(0,1.5fr)_auto_minmax(0,1fr)_auto_minmax(0,1fr)]">
           {/* ETAPA 1 — Magnitudes (instrumentos animados) */}
-          <div className="surface rounded-3xl p-6">
+          <div data-reveal className="surface rounded-3xl p-6">
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand">
               1 · Magnitudes
             </p>
@@ -83,10 +91,14 @@ export function MagnitudesSection() {
             </p>
           </div>
 
-          <FlowConnector />
+          <FlowConnector delay={0.12} />
 
           {/* ETAPA 2 — Calibración acreditada (hub) */}
-          <div className="surface relative flex flex-col items-center justify-center rounded-3xl p-6 text-center">
+          <div
+            data-reveal
+            style={{ "--reveal-delay": "0.24s" } as CSSProperties}
+            className="surface relative flex flex-col items-center justify-center rounded-3xl p-6 text-center"
+          >
             <div className="relative grid h-20 w-20 place-items-center">
               <span
                 className="absolute inset-0 rounded-full border-2 border-dashed border-brand/40"
@@ -107,11 +119,13 @@ export function MagnitudesSection() {
             </p>
           </div>
 
-          <FlowConnector />
+          <FlowConnector delay={0.36} />
 
           {/* ETAPA 3 — Certificado */}
           <Link
             href="/certificados"
+            data-reveal
+            style={{ "--reveal-delay": "0.48s" } as CSSProperties}
             className="surface group flex flex-col items-center justify-center rounded-3xl p-6 text-center transition-transform duration-300 hover:-translate-y-1"
           >
             <span className="grid h-12 w-12 place-items-center rounded-full bg-gold text-[#1a1400]">
@@ -130,7 +144,7 @@ export function MagnitudesSection() {
               Ver portal <ArrowRight className="h-3.5 w-3.5" />
             </span>
           </Link>
-        </Reveal>
+        </div>
 
         <div className="mt-8 text-center">
           <Link

@@ -1,12 +1,10 @@
-"use client";
-
 import {
   Children,
   cloneElement,
   isValidElement,
   type CSSProperties,
+  type ReactElement,
 } from "react";
-import { useInView } from "@/lib/use-in-view";
 import { cn } from "@/lib/utils";
 
 type RevealProps = {
@@ -15,41 +13,43 @@ type RevealProps = {
   delay?: number;
   /** Anima los hijos directos de forma escalonada */
   stagger?: boolean;
+  /** Compat: ya no se usa (el reveal usa `scale`, no translate). */
   y?: number;
   as?: React.ElementType;
 };
 
-const base = "transition-[opacity,transform] duration-700 ease-out";
-
-/** Revela contenido al entrar al viewport (IntersectionObserver, fiable en móvil). */
+/**
+ * Revela contenido al hacer scroll usando el sistema universal `data-reveal`
+ * (lo observa <ScrollReveals/> en el layout). Mismo efecto en TODO el sitio:
+ * se re-anima al volver a entrar y no choca con los hover de las tarjetas.
+ *
+ * - `stagger`: aplica `data-reveal` a cada hijo directo con retardo por índice.
+ * - sin `stagger`: anima el bloque completo.
+ */
 export function Reveal({
   children,
   className,
   delay = 0,
   stagger = false,
-  y = 28,
   as: Tag = "div",
 }: RevealProps) {
-  const { ref, inView } = useInView();
-
   if (stagger) {
     const items = Children.toArray(children);
     return (
-      <Tag ref={ref} className={cn(className)}>
+      <Tag className={cn(className)}>
         {items.map((child, i) => {
           if (!isValidElement(child)) return child;
-          const el = child as React.ReactElement<{
+          const el = child as ReactElement<{
             style?: CSSProperties;
-            className?: string;
+            "data-reveal"?: boolean | string;
           }>;
-          const style: CSSProperties = {
-            ...(el.props.style || {}),
-            transition: "opacity .7s ease, transform .7s ease",
-            transitionDelay: `${delay + i * 0.09}s`,
-            opacity: inView ? 1 : 0,
-            transform: inView ? "none" : `translateY(${y}px)`,
-          };
-          return cloneElement(el, { style });
+          return cloneElement(el, {
+            "data-reveal": true,
+            style: {
+              ...(el.props.style || {}),
+              "--reveal-delay": `${delay + i * 0.09}s`,
+            } as CSSProperties,
+          });
         })}
       </Tag>
     );
@@ -57,13 +57,9 @@ export function Reveal({
 
   return (
     <Tag
-      ref={ref}
-      className={cn(base, className)}
-      style={{
-        transitionDelay: `${delay}s`,
-        opacity: inView ? 1 : 0,
-        transform: inView ? "none" : `translateY(${y}px)`,
-      }}
+      className={cn(className)}
+      data-reveal
+      style={{ "--reveal-delay": `${delay}s` } as CSSProperties}
     >
       {children}
     </Tag>

@@ -6,6 +6,7 @@ import { Plus } from "lucide-react";
 import { faqs } from "@/lib/content";
 import { highlightBrand } from "@/lib/highlight-brand";
 import { Container, SectionHeading } from "@/components/ui/container";
+import { Reveal } from "@/components/ui/reveal";
 
 export function FaqSection() {
   const [open, setOpen] = useState<number | null>(0);
@@ -15,10 +16,14 @@ export function FaqSection() {
       <Container>
         <SectionHeading
           eyebrow="Preguntas frecuentes"
-          title={<>Resolvemos tus dudas</>}
+          title={
+            <>
+              Resolvemos tus <span className="text-accent">dudas</span>
+            </>
+          }
         />
 
-        <div className="mx-auto mt-12 max-w-3xl divide-y divide-border rounded-3xl border border-border bg-card/40">
+        <Reveal className="mx-auto mt-12 max-w-3xl divide-y divide-border rounded-3xl border border-border bg-card/40">
           {faqs.map((f, i) => {
             const active = open === i;
             return (
@@ -52,7 +57,7 @@ export function FaqSection() {
               </div>
             );
           })}
-        </div>
+        </Reveal>
       </Container>
     </section>
   );

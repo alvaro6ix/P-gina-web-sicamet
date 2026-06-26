@@ -6,7 +6,7 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 /* ===========================================================
-   TOKENS — Azul dominante + Dorado de acento (#ffd300)
+   TOKENS — Azul dominante + Naranja Vaisala de acento (#fb6432)
    =========================================================== */
 :root {
   --background: #eef3fa;
@@ -23,9 +23,14 @@
   --brand-strong: #0e3f8f;
   --brand-soft: #dde9fc;
 
-  --gold: #e3aa1c; /* dorado (menos amarillo) */
-  --gold-strong: #c7901a;
-  --gold-ink: #8a6710; /* dorado legible como texto en claro */
+  /* "gold" ahora apunta al naranja Vaisala (se eliminó el amarillo del sitio) */
+  --gold: #fb6432;
+  --gold-strong: #e4561f;
+  --gold-ink: #bf4a1e; /* naranja legible como texto en claro */
+
+  --accent: #fb6432; /* Ember Orange (acento Vaisala) */
+  --accent-strong: #e4561f;
+  --accent-soft: #ffe7dc;
 
   --ring: #1456c9;
   --grid: rgba(20, 86, 201, 0.08);
@@ -49,9 +54,14 @@
   --brand-strong: #6aa8ff;
   --brand-soft: #112444;
 
-  --gold: #e3aa1c;
-  --gold-strong: #f2c450;
-  --gold-ink: #f2c450;
+  /* "gold" ahora apunta al naranja Vaisala (se eliminó el amarillo del sitio) */
+  --gold: #ff7a4d;
+  --gold-strong: #ff9670;
+  --gold-ink: #ff9670;
+
+  --accent: #ff7a4d; /* Ember Orange (acento Vaisala, +brillo en oscuro) */
+  --accent-strong: #ff9670;
+  --accent-soft: #3a1d12;
 
   --ring: #3b86f7;
   --grid: rgba(59, 134, 247, 0.09);
@@ -76,6 +86,9 @@
   --color-gold: var(--gold);
   --color-gold-strong: var(--gold-strong);
   --color-gold-ink: var(--gold-ink);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-accent-soft: var(--accent-soft);
   --color-success: #16a34a;
   --color-ring: var(--ring);
 
@@ -171,6 +184,9 @@ body {
 .text-gold {
   color: var(--gold-ink);
 }
+.text-accent {
+  color: var(--accent);
+}
 
 .surface {
   background: var(--card);
@@ -227,6 +243,146 @@ body {
 .will-reveal {
   opacity: 0;
   transform: translateY(28px);
+}
+
+/* ===========================================================
+   REVEAL UNIVERSAL — cualquier elemento con [data-reveal] entra
+   al hacer scroll y se re-anima al volver (estilo Apple).
+   El stagger se controla con --reveal-delay (inline por índice).
+   =========================================================== */
+[data-reveal] {
+  opacity: 0;
+  /* Movimiento notorio con 'transform'. Tailwind v4 usa las propiedades
+     'translate'/'scale' para sus hover, así que 'transform' queda libre y
+     NO choca con los efectos de hover de las tarjetas (componen).
+     La transición incluye además las props de hover (con 0 delay) para que
+     el reveal no rompa esos efectos. */
+  transform: translateY(46px) scale(0.94);
+  filter: blur(10px);
+  transition:
+    opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0s),
+    transform 0.85s cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0s),
+    filter 0.85s cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0s),
+    translate 0.3s ease 0s,
+    scale 0.3s ease 0s,
+    border-color 0.3s ease 0s,
+    box-shadow 0.3s ease 0s,
+    color 0.25s ease 0s,
+    background-color 0.25s ease 0s;
+  will-change: opacity, transform, filter;
+}
+[data-reveal][data-in] {
+  opacity: 1;
+  transform: none;
+  filter: blur(0);
+}
+/* Variante para FOTOS: se develan con un "wipe" hacia arriba + zoom suave
+   (efecto distinto al slide general). Usar: data-reveal + class reveal-photo. */
+[data-reveal].reveal-photo {
+  opacity: 0;
+  transform: none;
+  filter: none;
+  scale: 1.12;
+  clip-path: inset(0 12% 100% 12%);
+  transition:
+    opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0s),
+    scale 1s cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0s),
+    clip-path 1s cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0s);
+}
+[data-reveal].reveal-photo[data-in] {
+  opacity: 1;
+  scale: 1;
+  clip-path: inset(0 0% 0% 0%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    scale: 1;
+    clip-path: none;
+    transition: none;
+  }
+}
+
+/* Panel de la sección guía: entra al cambiar de opción */
+.guide-panel {
+  animation: guidePanelIn 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+@keyframes guidePanelIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Instrumento del hero: se "construye" al cargar y al cambiar de magnitud */
+.instr-build {
+  animation: instrBuild 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+@keyframes instrBuild {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Ken Burns: zoom/paneo lento para imágenes (da vida a fotos estáticas) */
+.kenburns {
+  transform-origin: center;
+  animation: kenburns 14s ease-out infinite alternate;
+}
+@keyframes kenburns {
+  from {
+    transform: scale(1.05) translate(0, 0);
+  }
+  to {
+    transform: scale(1.2) translate(-2.5%, -2%);
+  }
+}
+
+/* Placeholder de foto: barrido diagonal continuo (shimmer) */
+.photo-shimmer::after {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  background: linear-gradient(
+    115deg,
+    transparent 38%,
+    color-mix(in oklab, var(--brand) 16%, transparent) 50%,
+    transparent 62%
+  );
+  transform: translateX(-120%);
+  animation: photoShimmer 3.8s ease-in-out infinite;
+}
+@keyframes photoShimmer {
+  to {
+    transform: translateX(120%);
+  }
+}
+
+/* Chips de magnitud: entran escalonados al cargar (delay inline por índice) */
+.hv-chip-in {
+  animation: chipIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes chipIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 /* ===========================================================

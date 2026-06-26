@@ -10,7 +10,7 @@ export function PageHero({
   breadcrumb,
 }: {
   eyebrow?: string;
-  title: string;
+  title: React.ReactNode;
   description?: string;
   breadcrumb: { name: string; href: string }[];
 }) {

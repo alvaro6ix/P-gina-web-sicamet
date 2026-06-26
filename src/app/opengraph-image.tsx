@@ -32,7 +32,7 @@ export default function Image() {
             left: 0,
             width: 16,
             height: "100%",
-            backgroundColor: "#ffd300",
+            backgroundColor: "#fb6432",
           }}
         />
 
@@ -65,7 +65,7 @@ export default function Image() {
             }}
           >
             {site.name}
-            <span style={{ color: "#ffd300" }}>.</span>
+            <span style={{ color: "#fb6432" }}>.</span>
           </div>
           <div
             style={{
@@ -101,11 +101,11 @@ export default function Image() {
           <div style={{ display: "flex" }}>
             {accreditations.length} acreditaciones ema
           </div>
-          <div style={{ display: "flex", color: "#ffd300" }}>•</div>
+          <div style={{ display: "flex", color: "#fb6432" }}>•</div>
           <div style={{ display: "flex" }}>
             Único partner Vaisala en México
           </div>
-          <div style={{ display: "flex", color: "#ffd300" }}>•</div>
+          <div style={{ display: "flex", color: "#fb6432" }}>•</div>
           <div style={{ display: "flex" }}>sicamet.mx</div>
         </div>
       </div>

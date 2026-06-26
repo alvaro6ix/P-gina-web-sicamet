@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { CSSProperties } from "react";
 import {
   LogIn,
   LayoutDashboard,
@@ -65,7 +66,11 @@ export default function CertificadosPage() {
       />
       <PageHero
         eyebrow="Portal de clientes"
-        title="Tu Portal de Certificados"
+        title={
+          <>
+            Tu Portal de <span className="text-accent">Certificados</span>
+          </>
+        }
         description="Centraliza la consulta y descarga de tus certificados de calibración de forma rápida, segura y desde un solo lugar."
         breadcrumb={[
           { name: "Inicio", href: "/" },
@@ -78,19 +83,25 @@ export default function CertificadosPage() {
         <Container>
           <div className="surface grid items-center gap-8 rounded-3xl p-6 sm:rounded-[2.5rem] sm:p-12 lg:grid-cols-2 lg:gap-10">
             <div>
-              <h2 className="font-display text-2xl font-bold sm:text-3xl">
+              <h2 data-reveal className="font-display text-2xl font-bold sm:text-3xl">
                 Control total de tu información
               </h2>
-              <p className="mt-4 leading-relaxed text-muted">
+              <p
+                data-reveal
+                style={{ "--reveal-delay": "0.08s" } as CSSProperties}
+                className="mt-4 leading-relaxed text-muted"
+              >
                 Desarrollado con tecnología moderna, el portal te ofrece una
                 experiencia fluida e intuitiva. Monitorea en tiempo real el
                 estatus de tus certificados y descarga los aprobados cuando los
                 necesites.
               </p>
               <div className="mt-6 grid grid-cols-2 gap-3">
-                {metrics.map((m) => (
+                {metrics.map((m, i) => (
                   <div
                     key={m.label}
+                    data-reveal
+                    style={{ "--reveal-delay": `${0.15 + i * 0.08}s` } as CSSProperties}
                     className="flex items-center gap-3 rounded-2xl border border-border bg-card-soft px-4 py-3"
                   >
                     <m.icon className={`h-5 w-5 ${m.c}`} />
@@ -98,7 +109,11 @@ export default function CertificadosPage() {
                   </div>
                 ))}
               </div>
-              <div className="mt-8">
+              <div
+                data-reveal
+                style={{ "--reveal-delay": "0.5s" } as CSSProperties}
+                className="mt-8"
+              >
                 <FancyButton
                   href={certificatesPortal.url}
                   external
@@ -111,7 +126,11 @@ export default function CertificadosPage() {
               </p>
             </div>
 
-            <div className="mx-auto h-80 w-56 sm:h-[30rem] sm:w-80">
+            <div
+              data-reveal
+              style={{ "--reveal-delay": "0.12s" } as CSSProperties}
+              className="mx-auto h-80 w-56 sm:h-[30rem] sm:w-80"
+            >
               <Certificate />
             </div>
           </div>
@@ -147,12 +166,17 @@ export default function CertificadosPage() {
       <section className="pb-20">
         <Container>
           <div className="surface rounded-3xl p-8">
-            <h3 className="font-display text-xl font-semibold">
+            <h3 data-reveal className="font-display text-xl font-semibold">
               Todo lo que puedes hacer
             </h3>
             <ul className="mt-5 grid gap-3 sm:grid-cols-2">
-              {certificatesPortal.features.map((f) => (
-                <li key={f} className="flex items-start gap-3 text-sm">
+              {certificatesPortal.features.map((f, i) => (
+                <li
+                  key={f}
+                  data-reveal
+                  style={{ "--reveal-delay": `${0.06 + i * 0.06}s` } as CSSProperties}
+                  className="flex items-start gap-3 text-sm"
+                >
                   <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-success" />
                   <span>{highlightBrand(f)}</span>
                 </li>

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { CSSProperties } from "react";
 import { Mail, Phone, MapPin, Clock } from "lucide-react";
 import { contacts, site, whatsappUrl } from "@/lib/content";
 import { WhatsappGlyph } from "@/components/ui/whatsapp-glyph";
@@ -27,7 +28,11 @@ export default function ContactoPage() {
       />
       <PageHero
         eyebrow="Hablemos"
-        title="Solicita tu cotización"
+        title={
+          <>
+            Solicita tu <span className="text-accent">cotización</span>
+          </>
+        }
         description="Cuéntanos qué necesitas calibrar o calificar y te enviaremos una propuesta a la medida. También puedes escribirnos por WhatsApp o llamarnos directamente."
         breadcrumb={[
           { name: "Inicio", href: "/" },
@@ -38,9 +43,7 @@ export default function ContactoPage() {
       <section className="py-10">
         <Container>
           <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
-            <Reveal>
-              <LeadForm type="contacto" />
-            </Reveal>
+            <LeadForm type="contacto" />
 
             <Reveal stagger className="space-y-4">
               <div className="grid gap-3 rounded-3xl border border-border bg-card/50 p-6">
@@ -87,9 +90,11 @@ export default function ContactoPage() {
                 <h3 className="font-display text-lg font-semibold">
                   Atención por área
                 </h3>
-                {contacts.map((c) => (
+                {contacts.map((c, i) => (
                   <div
                     key={c.email}
+                    data-reveal
+                    style={{ "--reveal-delay": `${i * 0.08}s` } as CSSProperties}
                     className="rounded-2xl border border-border bg-background/60 p-4"
                   >
                     <p className="text-sm font-semibold">{c.name}</p>

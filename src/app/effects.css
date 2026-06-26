@@ -21,7 +21,7 @@
   pointer-events: none;
   background: radial-gradient(circle at 30% 28%, rgba(14, 99, 216, 0.45), transparent 45%),
     radial-gradient(circle at 72% 60%, rgba(34, 211, 238, 0.4), transparent 45%),
-    radial-gradient(circle at 50% 82%, rgba(255, 211, 0, 0.28), transparent 42%);
+    radial-gradient(circle at 50% 82%, rgba(251, 100, 50, 0.28), transparent 42%);
   filter: blur(42px);
   animation: liquid-move 16s ease-in-out infinite alternate;
 }
@@ -144,7 +144,7 @@
   background: linear-gradient(
     120deg,
     transparent 20%,
-    rgba(255, 211, 0, 0.45) 50%,
+    rgba(251, 100, 50, 0.45) 50%,
     transparent 80%
   );
   transform: translateX(-120%);
@@ -181,7 +181,7 @@
   background: linear-gradient(
     120deg,
     transparent 25%,
-    rgba(255, 211, 0, 0.5) 50%,
+    rgba(251, 100, 50, 0.5) 50%,
     transparent 75%
   );
   transform: translateX(-130%);
@@ -202,7 +202,7 @@
   --c-mid: #3b86f7;
   --c-brand: #0e63d8;
   --c-dark: #0a3f8f;
-  --c-gold: #ffd300;
+  --c-gold: #fb6432;
   --radius: 16px;
 
   position: relative;
@@ -338,11 +338,11 @@
   transform: translateX(4px);
 }
 .fbtn.gold .wrap {
-  background: linear-gradient(to bottom, #fff0b8 0%, var(--c-gold) 100%);
+  background: linear-gradient(to bottom, #ffd9c9 0%, var(--c-gold) 100%);
 }
 .fbtn.gold .content {
   color: #1a1400;
-  background: linear-gradient(to bottom, #ffe04d 0%, var(--c-gold) 100%);
+  background: linear-gradient(to bottom, #ff8a5c 0%, var(--c-gold) 100%);
 }
 .fbtn.gold .arrow,
 .fbtn.gold .arrow::before,
@@ -488,7 +488,7 @@
   --c-color-2: rgba(29, 78, 216, 0.55);
   --c-color-3: rgba(59, 134, 247, 0.5);
   --c-color-4: rgba(180, 210, 255, 0.5);
-  --c-gold: rgba(255, 211, 0, 0.4); /* dorado casi nada */
+  --c-gold: rgba(251, 100, 50, 0.4); /* dorado casi nada */
   --c-shadow: rgba(13, 40, 95, 0.5);
   --c-shadow-inset-top: rgba(90, 140, 230, 0.55);
   --c-shadow-inset-bottom: rgba(180, 205, 255, 0.4);
@@ -697,11 +697,11 @@
 
 /* ---------- Loader del bot (gooey dorado/ámbar) ---------- */
 .bot-orb-loader {
-  --color-one: #ffbf48;
+  --color-one: #ff8a5c;
   --color-two: #be4a1d;
-  --color-three: #ffbf4780;
+  --color-three: #ff8a5c80;
   --color-four: #bf4a1d80;
-  --color-five: #ffbf4740;
+  --color-five: #ff8a5c40;
   --time-animation: 2s;
   --size: 0.58;
   display: block;
@@ -870,14 +870,27 @@
 }
 .theme-switch .sun-moon {
   position: absolute;
+  display: grid;
+  place-items: center;
   height: 21px;
   width: 21px;
   left: 3px;
   bottom: 3px;
-  background: var(--gold);
+  /* El sol/luna se queda AMARILLO (día/noche), no usa el acento naranja. */
+  background: #ffd300;
   border-radius: 50%;
   transition: 0.4s;
   box-shadow: 0 0 10px 1px rgba(255, 211, 0, 0.7);
+}
+/* Icono de sol dentro del toggle (día). Se oculta en modo oscuro (queda la luna). */
+.theme-switch .tt-icon {
+  width: 13px;
+  height: 13px;
+  color: #7a5300;
+  transition: opacity 0.3s ease;
+}
+.theme-switch input:checked + .slider .tt-icon {
+  opacity: 0;
 }
 .theme-switch input:checked + .slider {
   background: #0a1322;
@@ -942,7 +955,7 @@
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(255, 211, 0, 0.25),
+    rgba(251, 100, 50, 0.25),
     transparent
   );
   transform: translateX(-100%);
@@ -1005,6 +1018,16 @@
   }
   50% {
     transform: scaleY(1);
+  }
+}
+/* Balanza analítica: el plato con la pesa "respira" como midiendo en vivo */
+@keyframes weigh-bob {
+  0%,
+  100% {
+    transform: translateY(-2px);
+  }
+  50% {
+    transform: translateY(2px);
   }
 }
 @keyframes flow-dash {
@@ -1088,7 +1111,7 @@
    adaptable a tema claro/oscuro.  ·  Mapbox GL
    ===================================================================== */
 .cyber-map {
-  --map-accent: #ffd300; /* único color de acento */
+  --map-accent: #fb6432; /* único color de acento */
   --map-surface: rgba(255, 255, 255, 0.72); /* glass claro */
   --map-ink: #16233a;
   --map-ink-soft: #51617a;
@@ -1102,18 +1125,18 @@
   border: 1px solid var(--map-frame);
   box-shadow:
     0 18px 50px -22px rgba(0, 0, 0, 0.35),
-    inset 0 0 0 1px rgba(255, 211, 0, 0.12);
+    inset 0 0 0 1px rgba(251, 100, 50, 0.12);
 }
 .dark .cyber-map {
   --map-surface: rgba(10, 18, 34, 0.66);
   --map-ink: #eaf1ff;
   --map-ink-soft: #9fb0cc;
-  --map-line: rgba(255, 211, 0, 0.18);
-  --map-frame: rgba(255, 211, 0, 0.22);
+  --map-line: rgba(251, 100, 50, 0.18);
+  --map-frame: rgba(251, 100, 50, 0.22);
   background: #060b16;
   box-shadow:
     0 18px 50px -20px rgba(0, 0, 0, 0.7),
-    inset 0 0 0 1px rgba(255, 211, 0, 0.16);
+    inset 0 0 0 1px rgba(251, 100, 50, 0.16);
 }
 
 .cyber-map__canvas {
@@ -1166,7 +1189,7 @@
   background: transparent;
 }
 .cyber-map .mapboxgl-ctrl-group button:hover {
-  background: rgba(255, 211, 0, 0.18);
+  background: rgba(251, 100, 50, 0.18);
 }
 .dark .cyber-map .mapboxgl-ctrl-group button .mapboxgl-ctrl-icon {
   filter: invert(1);
@@ -1193,7 +1216,7 @@
   inset: 0;
   z-index: 2;
   pointer-events: none;
-  background: #c9a437; /* amarillo apagado/mate (no brillante) */
+  background: #c2562f; /* naranja apagado/mate (no brillante) */
   opacity: 0.09;
   mix-blend-mode: soft-light;
 }
@@ -1210,8 +1233,8 @@
   pointer-events: none;
   border-radius: 1.5rem;
   box-shadow:
-    inset 0 0 0 1px rgba(255, 211, 0, 0.55),
-    inset 0 0 26px -6px rgba(255, 211, 0, 0.55);
+    inset 0 0 0 1px rgba(251, 100, 50, 0.55),
+    inset 0 0 26px -6px rgba(251, 100, 50, 0.55);
   animation: cmap-edge 3.6s ease-in-out infinite;
 }
 @keyframes cmap-edge {
@@ -1235,7 +1258,7 @@
   z-index: 3;
   background: var(--map-accent);
   opacity: 0.55;
-  box-shadow: 0 0 12px 1px rgba(255, 211, 0, 0.7);
+  box-shadow: 0 0 12px 1px rgba(251, 100, 50, 0.7);
   animation: cmap-scan 6.5s linear infinite;
 }
 @keyframes cmap-scan {
@@ -1315,7 +1338,7 @@
   height: 7px;
   border-radius: 50%;
   background: var(--map-accent);
-  box-shadow: 0 0 8px rgba(255, 211, 0, 0.9);
+  box-shadow: 0 0 8px rgba(251, 100, 50, 0.9);
   animation: cmap-blink 1.4s ease-in-out infinite;
 }
 @keyframes cmap-blink {
@@ -1358,7 +1381,7 @@
 .cyber-map__open--on {
   color: #1a1500;
   background: var(--map-accent);
-  box-shadow: 0 0 18px -4px rgba(255, 211, 0, 0.85);
+  box-shadow: 0 0 18px -4px rgba(251, 100, 50, 0.85);
 }
 .cyber-map__open--off {
   color: var(--map-ink);
@@ -1411,7 +1434,7 @@
   border-radius: 10px;
   color: #1a1500;
   background: var(--map-accent);
-  box-shadow: 0 0 16px -4px rgba(255, 211, 0, 0.7);
+  box-shadow: 0 0 16px -4px rgba(251, 100, 50, 0.7);
 }
 .cyber-map__name {
   font-family: var(--font-display, inherit);
@@ -1457,14 +1480,14 @@
   font-weight: 700;
   color: #1a1500;
   background: var(--map-accent);
-  box-shadow: 0 8px 22px -10px rgba(255, 211, 0, 0.8);
+  box-shadow: 0 8px 22px -10px rgba(251, 100, 50, 0.8);
   transition:
     transform 0.18s ease,
     box-shadow 0.18s ease;
 }
 .cyber-map__cta:hover {
   transform: translateY(-1px) scale(1.02);
-  box-shadow: 0 10px 28px -8px rgba(255, 211, 0, 0.95);
+  box-shadow: 0 10px 28px -8px rgba(251, 100, 50, 0.95);
 }
 
 /* ---------- Pin: núcleo + anillos pulsantes + radar (todo amarillo) ---------- */
@@ -1490,10 +1513,10 @@
   font-weight: 800;
   letter-spacing: 0.1em;
   color: #1a1500;
-  background: #ffd300;
+  background: #fb6432;
   box-shadow:
     0 5px 14px -4px rgba(0, 0, 0, 0.45),
-    0 0 16px -4px rgba(255, 211, 0, 0.85);
+    0 0 16px -4px rgba(251, 100, 50, 0.85);
   animation: cmap-label 3s ease-in-out infinite;
 }
 @keyframes cmap-label {
@@ -1518,11 +1541,11 @@
   height: 13px;
   transform: translate(-50%, -50%);
   border-radius: 50%;
-  background: #ffd300;
+  background: #fb6432;
   box-shadow:
     0 0 0 2px rgba(255, 255, 255, 0.85),
-    0 0 10px rgba(255, 211, 0, 0.95),
-    0 0 22px rgba(255, 211, 0, 0.75);
+    0 0 10px rgba(251, 100, 50, 0.95),
+    0 0 22px rgba(251, 100, 50, 0.75);
   animation: cmap-core 1.6s ease-in-out infinite;
 }
 @keyframes cmap-core {
@@ -1530,14 +1553,14 @@
   100% {
     box-shadow:
       0 0 0 2px rgba(255, 255, 255, 0.85),
-      0 0 10px rgba(255, 211, 0, 0.95),
-      0 0 22px rgba(255, 211, 0, 0.75);
+      0 0 10px rgba(251, 100, 50, 0.95),
+      0 0 22px rgba(251, 100, 50, 0.75);
   }
   50% {
     box-shadow:
       0 0 0 2px rgba(255, 255, 255, 0.95),
-      0 0 16px rgba(255, 211, 0, 1),
-      0 0 34px rgba(255, 211, 0, 0.85);
+      0 0 16px rgba(251, 100, 50, 1),
+      0 0 34px rgba(251, 100, 50, 0.85);
   }
 }
 .cmap-pin__ring {
@@ -1548,7 +1571,7 @@
   height: 18px;
   transform: translate(-50%, -50%);
   border-radius: 50%;
-  border: 2px solid #ffd300;
+  border: 2px solid #fb6432;
   animation: cmap-ping 2.6s cubic-bezier(0, 0.2, 0.8, 1) infinite;
 }
 .cmap-pin__ring--2 {
@@ -1575,9 +1598,9 @@
   height: 66px;
   transform-origin: top center;
   transform: translate(-50%, 0) rotate(0deg);
-  background: #ffd300;
+  background: #fb6432;
   opacity: 0.5;
-  box-shadow: 0 0 8px 1px rgba(255, 211, 0, 0.7);
+  box-shadow: 0 0 8px 1px rgba(251, 100, 50, 0.7);
   animation: cmap-radar 3.4s linear infinite;
 }
 @keyframes cmap-radar {
@@ -1641,21 +1664,21 @@
   0% {
     transform: rotate(90deg);
     box-shadow:
-      0 6px 11px 0 #ffd84a inset,
+      0 6px 11px 0 #ff7a4d inset,
       0 9px 13px 0 #3b86f7 inset,
       0 27px 27px 0 #0e3f8f inset;
   }
   50% {
     transform: rotate(270deg);
     box-shadow:
-      0 6px 11px 0 #ffe680 inset,
-      0 13px 11px 0 #ffd400 inset,
+      0 6px 11px 0 #ff9670 inset,
+      0 13px 11px 0 #fb6432 inset,
       0 20px 30px 0 #1456c9 inset;
   }
   100% {
     transform: rotate(450deg);
     box-shadow:
-      0 6px 11px 0 #ffd84a inset,
+      0 6px 11px 0 #ff7a4d inset,
       0 9px 13px 0 #3b86f7 inset,
       0 27px 27px 0 #0e3f8f inset;
   }
@@ -1668,21 +1691,21 @@
   0% {
     transform: rotate(90deg);
     box-shadow:
-      0 5px 9px 0 #ffe27a inset,
+      0 5px 9px 0 #ff9670 inset,
       0 9px 13px 0 #3b86f7 inset,
       0 27px 27px 0 #0e3f8f inset;
   }
   50% {
     transform: rotate(270deg);
     box-shadow:
-      0 5px 9px 0 #ffe27a inset,
-      0 9px 5px 0 #ffd300 inset,
+      0 5px 9px 0 #ff9670 inset,
+      0 9px 5px 0 #fb6432 inset,
       0 18px 27px 0 #1456c9 inset;
   }
   100% {
     transform: rotate(450deg);
     box-shadow:
-      0 5px 9px 0 #ffe27a inset,
+      0 5px 9px 0 #ff9670 inset,
       0 9px 13px 0 #3b86f7 inset,
       0 27px 27px 0 #0e3f8f inset;
   }
@@ -1691,8 +1714,8 @@
   .bot-gen-spin {
     animation: none;
     box-shadow:
-      0 5px 9px 0 #ffe27a inset,
-      0 9px 13px 0 #ffd300 inset,
+      0 5px 9px 0 #ff9670 inset,
+      0 9px 13px 0 #fb6432 inset,
       0 27px 27px 0 #1456c9 inset;
   }
 }

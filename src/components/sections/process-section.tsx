@@ -1,9 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type CSSProperties } from "react";
 import { Search, ClipboardList, Gauge, FileCheck2, type LucideIcon } from "lucide-react";
 import { Container, SectionHeading } from "@/components/ui/container";
-import { Reveal } from "@/components/ui/reveal";
 
 type Step = {
   n: string;
@@ -47,18 +46,27 @@ export function ProcessSection() {
       <Container>
         <SectionHeading
           eyebrow="Cómo trabajamos"
-          title="Un proceso claro y trazable"
+          title={
+            <>
+              Un proceso <span className="text-accent">claro y trazable</span>
+            </>
+          }
           description="Metodología probada que asegura cumplimiento normativo y confianza en cada medición. Pasa el cursor por cada etapa."
         />
 
         {/* Flujo de nodos */}
-        <Reveal className="mt-14">
+        <div className="mt-14">
           <div className="flex flex-col items-stretch gap-3 lg:flex-row lg:items-center">
             {steps.map((s, i) => {
               const isActive = i === active;
               const Icon = s.icon;
               return (
-                <div key={s.n} className="flex flex-col items-stretch lg:flex-1 lg:flex-row lg:items-center">
+                <div
+                  key={s.n}
+                  data-reveal
+                  style={{ "--reveal-delay": `${i * 0.1}s` } as CSSProperties}
+                  className="flex flex-col items-stretch lg:flex-1 lg:flex-row lg:items-center"
+                >
                   <button
                     onMouseEnter={() => setActive(i)}
                     onFocus={() => setActive(i)}
@@ -115,7 +123,11 @@ export function ProcessSection() {
           </div>
 
           {/* Detalle de la etapa activa */}
-          <div className="surface mt-6 overflow-hidden rounded-3xl p-7">
+          <div
+            data-reveal
+            style={{ "--reveal-delay": "0.4s" } as CSSProperties}
+            className="surface mt-6 overflow-hidden rounded-3xl p-7"
+          >
             <div className="flex items-start gap-4">
               <span className="font-display text-5xl font-bold text-brand/25">
                 {steps[active].n}
@@ -137,7 +149,7 @@ export function ProcessSection() {
               />
             </div>
           </div>
-        </Reveal>
+        </div>
       </Container>
     </section>
   );

@@ -27,7 +27,12 @@ export default function AcreditacionesPage() {
       />
       <PageHero
         eyebrow="Competencia técnica"
-        title="12 magnitudes acreditadas por ema, a.c."
+        title={
+          <>
+            <span className="text-accent">12</span> magnitudes acreditadas por
+            ema, a.c.
+          </>
+        }
         description="La acreditación reconoce la competencia técnica y confiabilidad de nuestro laboratorio, con validez internacional a través de los acuerdos de reconocimiento mutuo de ILAC."
         breadcrumb={[
           { name: "Inicio", href: "/" },
@@ -75,7 +80,10 @@ export default function AcreditacionesPage() {
             ))}
           </Reveal>
 
-          <div className="mt-10 flex flex-col items-center gap-4 rounded-3xl border border-border bg-card/40 p-8 text-center sm:flex-row sm:justify-between sm:text-left">
+          <div
+            data-reveal
+            className="mt-10 flex flex-col items-center gap-4 rounded-3xl border border-border bg-card/40 p-8 text-center sm:flex-row sm:justify-between sm:text-left"
+          >
             <div className="flex items-center gap-4">
               <ShieldCheck className="h-10 w-10 shrink-0 text-brand" />
               <div>

@@ -72,25 +72,92 @@ export function Thermometer({ className }: Props) {
   );
 }
 
-/* ---------------- Balanza / Masa (oscila) -------------- */
+/* -------- Balanza analítica / Masa (moderna, lectura en vivo) -------- */
 export function Balance({ className }: Props) {
   return (
-    <svg viewBox="0 0 200 200" className={className ?? wrap} role="img" aria-label="Balanza de masa">
-      <line x1="100" y1="30" x2="100" y2="150" stroke="var(--border)" strokeWidth="4" />
-      <rect x="70" y="150" width="60" height="10" rx="3" fill="var(--brand)" />
-      <g style={{ transformOrigin: "100px 40px", animation: "needle-sweep 4s ease-in-out infinite" }}>
-        <line x1="40" y1="40" x2="160" y2="40" stroke="var(--brand)" strokeWidth="5" strokeLinecap="round" />
-        <circle cx="100" cy="40" r="7" fill="var(--gold)" />
-        <g>
-          <line x1="40" y1="40" x2="40" y2="70" stroke="var(--muted)" strokeWidth="2" />
-          <path d="M22 70 h36 l-6 16 h-24 z" fill="var(--card-soft)" stroke="var(--border)" strokeWidth="1.5" />
-        </g>
-        <g>
-          <line x1="160" y1="40" x2="160" y2="70" stroke="var(--muted)" strokeWidth="2" />
-          <path d="M142 70 h36 l-6 16 h-24 z" fill="var(--card-soft)" stroke="var(--border)" strokeWidth="1.5" />
-        </g>
+    <svg viewBox="0 0 200 200" className={className ?? wrap} role="img" aria-label="Balanza analítica de masa">
+      <defs>
+        <linearGradient id="bal-pan" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="var(--card)" />
+          <stop offset="1" stopColor="var(--card-soft)" />
+        </linearGradient>
+      </defs>
+
+      {/* marco HUD futurista (esquinas) */}
+      {["M22 38 V22 H38", "M162 22 H178 V38", "M178 162 V178 H162", "M38 178 H22 V162"].map(
+        (d, i) => (
+          <path
+            key={i}
+            d={d}
+            fill="none"
+            stroke="var(--brand)"
+            strokeWidth="2"
+            strokeLinecap="round"
+            opacity="0.35"
+          />
+        ),
+      )}
+
+      {/* halo de apoyo */}
+      <ellipse cx="100" cy="166" rx="58" ry="7" fill="var(--brand)" opacity="0.1" />
+
+      {/* cuerpo del equipo */}
+      <rect x="48" y="120" width="104" height="44" rx="11" fill="var(--card-soft)" stroke="var(--border)" strokeWidth="2" />
+      <rect x="48" y="120" width="104" height="44" rx="11" fill="none" stroke="var(--brand)" strokeWidth="1" opacity="0.25" />
+
+      {/* pilar trasero */}
+      <rect x="95" y="92" width="10" height="30" rx="3" fill="var(--border-strong)" />
+
+      {/* display digital con barras animadas (medición en proceso) */}
+      <rect x="60" y="129" width="80" height="26" rx="5" fill="#06122a" stroke="var(--border)" strokeWidth="1" />
+      {[0, 1, 2, 3, 4].map((i) => (
+        <rect key={i} x={67 + i * 13} y="150" width="8" height="4" rx="1.5" fill="var(--gold)">
+          <animate
+            attributeName="height"
+            values="4;13;6;11;4"
+            dur="2.6s"
+            begin={`${i * 0.18}s`}
+            repeatCount="indefinite"
+          />
+          <animate
+            attributeName="y"
+            values="150;141;148;143;150"
+            dur="2.6s"
+            begin={`${i * 0.18}s`}
+            repeatCount="indefinite"
+          />
+        </rect>
+      ))}
+      {/* dot de estabilidad */}
+      <circle cx="135" cy="124" r="2.4" fill="var(--gold)">
+        <animate attributeName="opacity" values="1;0.25;1" dur="1.6s" repeatCount="indefinite" />
+      </circle>
+
+      {/* plato + pesa patrón: se asientan juntos como midiendo en vivo */}
+      <g style={{ transformOrigin: "100px 90px", animation: "weigh-bob 3.6s ease-in-out infinite" }}>
+        {/* pesa patrón con asa */}
+        <rect x="84" y="55" width="32" height="26" rx="4" fill="var(--brand)" />
+        <path d="M93 55 q7 -12 14 0" fill="none" stroke="var(--brand)" strokeWidth="4" strokeLinecap="round" />
+        <text x="100" y="72" textAnchor="middle" fontSize="10" fontWeight="700" fill="#fff" className="font-mono">
+          1kg
+        </text>
+        {/* plato superior */}
+        <ellipse cx="100" cy="90" rx="42" ry="9" fill="url(#bal-pan)" stroke="var(--brand)" strokeWidth="2.5" />
+        <ellipse cx="100" cy="87" rx="34" ry="6" fill="none" stroke="var(--gold)" strokeWidth="1.2" opacity="0.6" />
       </g>
-      <circle cx="100" cy="40" r="11" fill="none" stroke="var(--gold)" strokeWidth="2" opacity="0.5" />
+
+      {/* anillo de medición (pulsa) */}
+      <ellipse
+        cx="100"
+        cy="92"
+        rx="52"
+        ry="13"
+        fill="none"
+        stroke="var(--gold)"
+        strokeWidth="1"
+        opacity="0.3"
+        style={{ animation: "ray-pulse 2.2s ease-in-out infinite" }}
+      />
     </svg>
   );
 }

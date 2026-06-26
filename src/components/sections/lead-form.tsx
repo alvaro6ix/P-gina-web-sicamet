@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type CSSProperties } from "react";
 import { CheckCircle2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -140,6 +140,7 @@ export function LeadForm({
   return (
     <form
       onSubmit={onSubmit}
+      data-reveal
       className="grid gap-4 rounded-3xl border border-border bg-card/50 p-6 sm:p-8 sm:grid-cols-2"
     >
       {/* honeypot anti-spam (oculto a usuarios reales) */}
@@ -152,12 +153,16 @@ export function LeadForm({
         className="hidden"
         style={{ display: "none" }}
       />
-      {baseFields.map((f) => (
-        <FieldInput key={f.name} field={f} />
+      {baseFields.map((f, i) => (
+        <FieldInput key={f.name} field={f} index={i} />
       ))}
 
       {subjectOptions ? (
-        <div className="grid gap-4 sm:col-span-2">
+        <div
+          data-reveal
+          style={{ "--reveal-delay": "0.36s" } as CSSProperties}
+          className="grid gap-4 sm:col-span-2"
+        >
           <label className="block">
             <span className="mb-1.5 block text-sm font-medium">
               {subjectLabel}
@@ -194,6 +199,7 @@ export function LeadForm({
         </div>
       ) : (
         <FieldInput
+          index={4}
           field={{
             name: "subject",
             label: subjectLabel,
@@ -202,6 +208,7 @@ export function LeadForm({
         />
       )}
       <FieldInput
+        index={5}
         field={{
           name: "message",
           label: messageLabel,
@@ -211,7 +218,11 @@ export function LeadForm({
         }}
       />
 
-      <div className="sm:col-span-2">
+      <div
+        data-reveal
+        style={{ "--reveal-delay": "0.5s" } as CSSProperties}
+        className="sm:col-span-2"
+      >
         {status === "error" && (
           <p className="mb-3 text-sm text-red-500">{feedback}</p>
         )}
@@ -234,11 +245,15 @@ export function LeadForm({
   );
 }
 
-function FieldInput({ field }: { field: Field }) {
+function FieldInput({ field, index = 0 }: { field: Field; index?: number }) {
   const cls =
     "w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none transition-colors focus:border-brand";
   return (
-    <label className={cn("block", field.full && "sm:col-span-2")}>
+    <label
+      data-reveal
+      style={{ "--reveal-delay": `${0.12 + index * 0.06}s` } as CSSProperties}
+      className={cn("block", field.full && "sm:col-span-2")}
+    >
       <span className="mb-1.5 block text-sm font-medium">
         {field.label}
         {field.required && <span className="text-brand"> *</span>}

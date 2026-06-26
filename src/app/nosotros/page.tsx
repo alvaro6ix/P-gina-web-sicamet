@@ -4,6 +4,7 @@ import { site } from "@/lib/content";
 import { PageHero } from "@/components/layout/page-hero";
 import { Container, SectionHeading } from "@/components/ui/container";
 import { Reveal } from "@/components/ui/reveal";
+import { PhotoCarousel } from "@/components/ui/photo-carousel";
 import { stats } from "@/lib/content";
 import { Counter } from "@/components/ui/counter";
 import { BreadcrumbJsonLd } from "@/components/seo/json-ld";
@@ -53,7 +54,12 @@ export default function NosotrosPage() {
       />
       <PageHero
         eyebrow="Quiénes somos"
-        title="Más de 20 años midiendo la confianza"
+        title={
+          <>
+            Más de <span className="text-accent">20 años</span> midiendo la
+            confianza
+          </>
+        }
         description={`${site.legalName} es un laboratorio de metrología especializado en servicios de calibración y calificación para los sectores industrial, farmacéutico y médico.`}
         breadcrumb={[
           { name: "Inicio", href: "/" },
@@ -125,6 +131,23 @@ export default function NosotrosPage() {
               ))}
             </Reveal>
           </div>
+        </Container>
+      </section>
+
+      <section className="py-16">
+        <Container>
+          <SectionHeading
+            eyebrow="Instalaciones"
+            title={
+              <>
+                Conoce nuestro <span className="text-accent">laboratorio</span>
+              </>
+            }
+            description="Un recorrido por nuestras áreas, equipos y el equipo humano detrás de cada medición."
+          />
+          <Reveal className="mt-12">
+            <PhotoCarousel />
+          </Reveal>
         </Container>
       </section>
 

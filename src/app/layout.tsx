@@ -5,6 +5,8 @@ import { site } from "@/lib/content";
 import { ThemeProvider, themeInitScript } from "@/components/theme/theme-provider";
 import { SmoothScroll } from "@/components/providers/smooth-scroll";
 import { CustomCursor } from "@/components/providers/custom-cursor";
+import { ScrollReveals } from "@/components/providers/scroll-reveals";
+import { ScrollProgress } from "@/components/ui/scroll-progress";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { Preloader } from "@/components/layout/preloader";
@@ -87,6 +89,8 @@ export default function RootLayout({
         <ThemeProvider>
           <SmoothScroll>
             <CustomCursor />
+            <ScrollReveals />
+            <ScrollProgress />
             <Preloader />
             <Navbar />
             <main className="flex-1">{children}</main>

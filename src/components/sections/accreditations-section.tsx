@@ -1,7 +1,7 @@
+import type { CSSProperties } from "react";
 import Link from "next/link";
 import { accreditations } from "@/lib/content";
 import { Container, SectionHeading } from "@/components/ui/container";
-import { Reveal } from "@/components/ui/reveal";
 import { Instrument } from "@/components/metrology/instruments";
 
 export function AccreditationsSection() {
@@ -11,17 +11,20 @@ export function AccreditationsSection() {
       <Container className="relative">
         <SectionHeading
           eyebrow="Acreditaciones EMA"
-          title={<>12 magnitudes acreditadas</>}
+          title={
+            <>
+              <span className="text-accent">12</span> magnitudes acreditadas
+            </>
+          }
           description="Competencia técnica reconocida por la Entidad Mexicana de Acreditación (ema, a.c.) con validez internacional a través de ILAC."
         />
 
-        <Reveal
-          stagger
-          className="mt-14 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4"
-        >
-          {accreditations.map((a) => (
+        <div className="mt-14 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+          {accreditations.map((a, i) => (
             <div
               key={a.code}
+              data-reveal
+              style={{ "--reveal-delay": `${(i % 4) * 0.07}s` } as CSSProperties}
               className="surface group relative flex flex-col rounded-2xl p-5 transition-all duration-300 hover:-translate-y-1 hover:border-brand/50"
             >
               <div className="flex items-start justify-between">
@@ -40,7 +43,7 @@ export function AccreditationsSection() {
               </p>
             </div>
           ))}
-        </Reveal>
+        </div>
 
         <div className="mt-10 text-center">
           <Link

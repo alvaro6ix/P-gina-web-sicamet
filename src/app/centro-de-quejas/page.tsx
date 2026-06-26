@@ -43,7 +43,11 @@ export default function CentroDeQuejasPage() {
       />
       <PageHero
         eyebrow="Tu opinión nos mejora"
-        title="Centro de Quejas y Sugerencias"
+        title={
+          <>
+            Centro de <span className="text-accent">Quejas</span> y Sugerencias
+          </>
+        }
         description="Como laboratorio acreditado ISO/IEC 17025, contamos con un proceso formal para atender quejas, sugerencias y comentarios con imparcialidad y confidencialidad."
         breadcrumb={[
           { name: "Inicio", href: "/" },
@@ -85,26 +89,24 @@ export default function CentroDeQuejasPage() {
           </Reveal>
 
           <div className="mx-auto max-w-3xl">
-            <div className="mb-6 flex items-center gap-3">
+            <div data-reveal className="mb-6 flex items-center gap-3">
               <MessageSquareWarning className="h-6 w-6 text-brand" />
               <h2 className="font-display text-xl font-semibold">
                 Registra tu queja o sugerencia
               </h2>
             </div>
-            <Reveal>
-              <LeadForm
-                type="queja"
-                subjectLabel="Tipo de caso"
-                subjectOptions={[
-                  "Queja",
-                  "Sugerencia",
-                  "Comentario",
-                  "Otro",
-                ]}
-                messageLabel="Describe tu caso a detalle"
-                submitLabel="Enviar queja"
-              />
-            </Reveal>
+            <LeadForm
+              type="queja"
+              subjectLabel="Tipo de caso"
+              subjectOptions={[
+                "Queja",
+                "Sugerencia",
+                "Comentario",
+                "Otro",
+              ]}
+              messageLabel="Describe tu caso a detalle"
+              submitLabel="Enviar queja"
+            />
           </div>
         </Container>
       </section>

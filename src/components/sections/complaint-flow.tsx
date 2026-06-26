@@ -247,6 +247,7 @@ export function ComplaintFlow() {
             const on = edgeOn(e);
             const dim = edgeDim(e);
             const color = e.kind === "no" ? GRAY : BLUE;
+            const d = edgePath(e);
             return (
               <g
                 key={i}
@@ -254,7 +255,7 @@ export function ComplaintFlow() {
                 opacity={dim ? 0.18 : 1}
               >
                 <path
-                  d={edgePath(e)}
+                  d={d}
                   fill="none"
                   stroke={color}
                   strokeWidth={on ? 4 : 2.4}
@@ -264,6 +265,23 @@ export function ComplaintFlow() {
                   markerEnd={`url(#cf-arrow-${e.kind === "no" ? "gray" : "blue"})`}
                   className={on ? "cf-edge cf-edge--on" : "cf-edge"}
                 />
+                {/* partícula que viaja por la arista (flujo siempre visible) */}
+                <circle r={on ? 5 : 4} fill={color}>
+                  <animateMotion
+                    dur="2.2s"
+                    begin={`${(i % 4) * 0.4}s`}
+                    repeatCount="indefinite"
+                    path={d}
+                    rotate="auto"
+                  />
+                  <animate
+                    attributeName="opacity"
+                    values="0;1;1;0"
+                    dur="2.2s"
+                    begin={`${(i % 4) * 0.4}s`}
+                    repeatCount="indefinite"
+                  />
+                </circle>
               </g>
             );
           })}

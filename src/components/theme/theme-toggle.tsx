@@ -1,5 +1,6 @@
 "use client";
 
+import { Sun } from "lucide-react";
 import { useTheme } from "./theme-provider";
 import { cn } from "@/lib/utils";
 
@@ -21,7 +22,9 @@ export function ThemeToggle({ className }: { className?: string }) {
         tabIndex={-1}
       />
       <span className="slider">
-        <span className="sun-moon" />
+        <span className="sun-moon">
+          <Sun className="tt-icon" strokeWidth={2.5} />
+        </span>
         <span className="star s1" />
         <span className="star s2" />
         <span className="star s3" />
